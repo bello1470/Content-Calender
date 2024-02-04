@@ -4,10 +4,7 @@ package belloech.org.contentcalender.controller;
 import belloech.org.contentcalender.models.Content;
 import belloech.org.contentcalender.repositories.ContentRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -36,5 +33,26 @@ public class ContentController {
 
         return contentRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
     }
+
+    @PostMapping("")
+    public void create(@RequestBody Content content){
+
+        contentRepository.save(content);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@RequestBody Content content, @PathVariable Integer id){
+        if (!contentRepository.existById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+        }
+        contentRepository.save(content);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+        public void delete(@PathVariable Integer id){
+        contentRepository.deleteById(id);
+    }
+
 
 }
