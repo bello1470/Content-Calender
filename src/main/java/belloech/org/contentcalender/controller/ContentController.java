@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/content")
+@CrossOrigin
 public class ContentController {
 
     private final ContentRepository contentRepository;
@@ -35,13 +36,13 @@ public class ContentController {
     }
 
     @PostMapping("")
-    public void create(@RequestBody Content content){
+    public void createContent(@RequestBody Content content){
 
         contentRepository.save(content);
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody Content content, @PathVariable Integer id){
+    public void updateContentById(@RequestBody Content content, @PathVariable Integer id){
         if (!contentRepository.existById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found");
         }
@@ -50,7 +51,7 @@ public class ContentController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-        public void delete(@PathVariable Integer id){
+        public void deleteContentById(@PathVariable Integer id){
         contentRepository.deleteById(id);
     }
 
