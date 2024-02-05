@@ -6,8 +6,9 @@ import java.time.LocalDateTime;
 
 public record Content(
 
-        @NotBlank
+
     Integer id,
+    @NotBlank
     String title,
     String desc,
     Status status,

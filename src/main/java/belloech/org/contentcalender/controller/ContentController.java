@@ -3,6 +3,7 @@ package belloech.org.contentcalender.controller;
 
 import belloech.org.contentcalender.models.Content;
 import belloech.org.contentcalender.repositories.ContentRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,7 +37,7 @@ public class ContentController {
     }
 
     @PostMapping("")
-    public void createContent(@RequestBody Content content){
+    public void createContent(@Valid @RequestBody Content content){
 
         contentRepository.save(content);
     }
