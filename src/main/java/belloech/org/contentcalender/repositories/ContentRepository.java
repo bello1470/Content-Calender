@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Repository
 public class ContentRepository {
@@ -52,6 +53,7 @@ contents.add(c);
 
     public boolean existById(Integer id) {
         return contents.stream().filter(c->c.id().equals(id)).count()==1;
+      
     }
 
     public void deleteById (Integer id){
