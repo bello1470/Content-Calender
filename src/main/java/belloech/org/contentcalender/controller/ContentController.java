@@ -3,7 +3,9 @@ package belloech.org.contentcalender.controller;
 
 import belloech.org.contentcalender.models.Content;
 import belloech.org.contentcalender.repositories.ContentRepository;
+import belloech.org.contentcalender.repositories.ContentTemplateRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,18 +24,21 @@ public class ContentController {
         this.contentRepository = contentRepository;
     }
 
+    @Autowired
+    private ContentTemplateRepository contentTemplateRepository;
+
     //make a request and find all pieces of content in the system
 
     @GetMapping("")
     public List<Content> findAllContent(){
 
-        return contentRepository.findAll();
+        return contentTemplateRepository.getAllContent();
     }
 
     @GetMapping("/{id}")
     public Content findById(@PathVariable Integer id){
 
-        return contentRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+        return contentTemplateRepository.getContent(id);
     }
 
     @PostMapping("")
