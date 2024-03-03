@@ -2,7 +2,7 @@ package belloech.org.contentcalender.controller;
 
 
 import belloech.org.contentcalender.models.Content;
-import belloech.org.contentcalender.repositories.ContentCollectionRepository;
+
 import belloech.org.contentcalender.repositories.ContentRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,10 @@ import java.util.Optional;
 public class ContentController {
 
 
+
+
     @Autowired
-    private ContentCollectionRepository contentCollectionRepository;
+    private ContentRepository contentRepository;
 
 
 
@@ -31,33 +33,40 @@ public class ContentController {
     @GetMapping("")
     public List<Content> findAllContent(){
 
-        return contentCollectionRepository.findAll();
+        return contentRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Content findById(@PathVariable Integer id){
 
-        return contentCollectionRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+        return contentRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+
+
     }
 
     @PostMapping("")
     public void createContent(@Valid @RequestBody Content content){
 
-        contentCollectionRepository.save(content);
+        contentRepository.save(content);
     }
 
     @PutMapping("/{id}")
     public void updateContentById(@RequestBody Content content, @PathVariable Integer id){
-        if (!contentCollectionRepository.existById(id)){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found");
+
+        Optional<Content> contents = contentRepository.findById(id);
+        if (contents.isPresent()){
+            Content existingContent = contents.get();
+            contentRepository.save(content);
         }
-        contentCollectionRepository.save(content);
+        else {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
         public void deleteContentById(@PathVariable Integer id){
-        contentCollectionRepository.deleteById(id);
+        contentRepository.deleteById(id);
     }
 
 
