@@ -2,6 +2,7 @@ package belloech.org.contentcalender;
 
 import belloech.org.contentcalender.config.ContentCalenderProperties;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
